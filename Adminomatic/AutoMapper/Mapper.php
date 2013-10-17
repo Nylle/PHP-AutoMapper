@@ -105,16 +105,20 @@ namespace Adminomatic\AutoMapper {
 			foreach($destinationReflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $destinationProperty) {
 				
 				$map = null;
-				if($this->TryGetMap($destinationProperty, $map)) {
-					$destination->{$destinationProperty->name} = $this->MapMapping($map, $destinationProperty, $source);
-					continue;
-				}
+                if($this->TryGetMap($destinationProperty, $map)) {
 
-				$srcProperty = null;
-				if(self::TryGetReflectionProperty($destinationProperty->name, $source, $srcProperty)) {
-					$destination->{$destinationProperty->name} = $this->MapProperty($destinationProperty, $srcProperty->getValue($source));
-					continue;
-				}
+                    if (! ($map->FromMember) || $map->FromMember->Class == $sourceType){
+                        $destination->{$destinationProperty->name} = $this->MapMapping($map, $destinationProperty, $source);
+                        continue;
+                    }
+                }else{
+
+                    $srcProperty = null;
+                    if(self::TryGetReflectionProperty($destinationProperty->name, $source, $srcProperty)) {
+                        $destination->{$destinationProperty->name} = $this->MapProperty($destinationProperty, $srcProperty->getValue($source));
+                        continue;
+                    }
+                }
 			}
 			return $destination;
 		}
