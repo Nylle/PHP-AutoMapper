@@ -44,4 +44,3 @@ namespace Adminomatic\AutoMapper {
 	}
 
 }
-?>

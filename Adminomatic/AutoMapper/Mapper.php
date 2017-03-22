@@ -237,4 +237,3 @@ namespace Adminomatic\AutoMapper {
 		
 	}
 }
-?>

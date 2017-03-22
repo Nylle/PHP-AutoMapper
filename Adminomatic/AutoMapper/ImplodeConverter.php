@@ -19,4 +19,3 @@ namespace Adminomatic\AutoMapper {
 		}
 	}
 }
-?>
