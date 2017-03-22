@@ -3,13 +3,13 @@
 namespace Adminomatic\AutoMapper {
 
 	class Map {
-		/** @var Adminomatic\AutoMapper\Property */
+		/** @var Property */
 		public $ForMember;
-		/** @var Adminomatic\AutoMapper\Property */
+		/** @var Property */
 		public $FromMember;
-		/** @var Adminomatic\AutoMapper\ITypeConverter */
+		/** @var ITypeConverter */
 		public $TypeConverter;
-		/** @var Adminomatic\AutoMapper\IValueResolver */
+		/** @var IValueResolver */
 		public $ValueResolver;
 		
 		public function __construct($forMember, $fromMember=null) {
@@ -24,7 +24,7 @@ namespace Adminomatic\AutoMapper {
 		 * Example: 'FullNameSpace\ClassName::PropertyName'
 		 *
 		 * @param string $source
-		 * @return Adminomatic\AutoMapper\MappingResult 
+		 * @return MappingResult
 		 */
 		public function FromMember($source) {
 			$this->FromMember = new Property($source);
@@ -35,7 +35,7 @@ namespace Adminomatic\AutoMapper {
 		 * Specifies an IValueResolver for this Map.
 		 *
 		 * @param IValueResolver $resolver
-		 * @return Adminomatic\AutoMapper\ResolutionResult 
+		 * @return ResolutionResult
 		 */
 		public function ResolveUsing(IValueResolver $resolver) {
 			$this->ValueResolver = $resolver;
@@ -44,4 +44,3 @@ namespace Adminomatic\AutoMapper {
 	}
 
 }
-?>

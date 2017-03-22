@@ -1,0 +1,20 @@
+{
+    "name": "nylle/php-automapper",
+    "license": "MIT",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Jan Kockrow"
+        },
+        {
+            "name": "Kristof Torfs",
+            "email": "kristof@torfs.org"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "Adminomatic\\AutoMapper\\" : "Adminomatic/AutoMapper/"
+        }
+    },
+    "require": {}
+}
