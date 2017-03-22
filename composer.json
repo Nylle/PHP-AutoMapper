@@ -1,6 +1,7 @@
 {
     "name": "nylle/php-automapper",
     "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "Jan Kockrow"
