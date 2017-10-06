@@ -54,6 +54,8 @@ namespace Adminomatic\AutoMapper {
 			if($source === null) {
 				return null;
 			}
+
+			$this->validateConfiguration();
 						
 			if(\is_object($destination)) {
 				if(\get_class($destination) == '\ReflectionProperty') {
@@ -77,6 +79,24 @@ namespace Adminomatic\AutoMapper {
 
 			return null;
 		}
+
+        /**
+         * Validates mapping configuration
+         *
+         * @throws \Exception
+         */
+        private function validateConfiguration(){
+            /** @var Map $mapping */
+            foreach($this->maps as $key => $mapping){
+                if (empty($mapping->ForMember)){
+                    throw new \Exception('Invalid Automapper configuration. The ForMember must be a valid FullNameSpace\ClassName::PropertyName');
+                } elseif ( empty($mapping->FromMember)
+                        && ( empty($mapping->ValueResolver)
+                            || (! empty($mapping->ValueResolver) && !$mapping instanceof IValueResolver) ) ) {
+                    throw new \Exception('Invalid Automapper configuration. You must specify the FromMember, a valid FullNameSpace\ClassName::PropertyName OR a instance of IValueResolver');
+                }
+            }
+        }
 		
 		private function MapMapping(Map $map, \ReflectionProperty $destinationProperty, $source){
 			if($map->FromMember !== null) {
@@ -101,6 +121,7 @@ namespace Adminomatic\AutoMapper {
 				return $source;
 			}
 
+            $sourceType = get_class($source);
 			$destinationReflection = new \ReflectionClass($destination);
 			foreach($destinationReflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $destinationProperty) {
 				
