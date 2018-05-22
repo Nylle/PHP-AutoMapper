@@ -80,23 +80,23 @@ namespace Adminomatic\AutoMapper {
 			return null;
 		}
 
-        /**
-         * Validates mapping configuration
-         *
-         * @throws \Exception
-         */
-        private function validateConfiguration(){
-            /** @var Map $mapping */
-            foreach($this->maps as $key => $mapping){
-                if (empty($mapping->ForMember)){
-                    throw new \Exception('Invalid Automapper configuration. The ForMember must be a valid FullNameSpace\ClassName::PropertyName');
-                } elseif ( empty($mapping->FromMember)
-                        && ( empty($mapping->ValueResolver)
-                            || (! empty($mapping->ValueResolver) && !$mapping instanceof IValueResolver) ) ) {
-                    throw new \Exception('Invalid Automapper configuration. You must specify the FromMember, a valid FullNameSpace\ClassName::PropertyName OR a instance of IValueResolver');
-                }
-            }
-        }
+		/**
+		 * Validates mapping configuration
+		 *
+		 * @throws \Exception
+		 */
+		private function validateConfiguration(){
+			/** @var Map $mapping */
+			foreach($this->maps as $key => $mapping){
+				if (empty($mapping->ForMember)){
+					throw new \Exception('Invalid Automapper configuration. The ForMember must be a valid FullNameSpace\ClassName::PropertyName');
+				} elseif ( empty($mapping->FromMember)
+						&& ( empty($mapping->ValueResolver)
+							|| (! empty($mapping->ValueResolver) && !$mapping->ValueResolver instanceof IValueResolver) ) ) {
+					throw new \Exception('Invalid Automapper configuration. You must specify the FromMember, a valid FullNameSpace\ClassName::PropertyName OR a instance of IValueResolver');
+				}
+			}
+		}
 		
 		private function MapMapping(Map $map, \ReflectionProperty $destinationProperty, $source){
 			if($map->FromMember !== null) {
@@ -121,25 +121,25 @@ namespace Adminomatic\AutoMapper {
 				return $source;
 			}
 
-            $sourceType = get_class($source);
+			$sourceType = get_class($source);
 			$destinationReflection = new \ReflectionClass($destination);
 			foreach($destinationReflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $destinationProperty) {
 				
 				$map = null;
-                if($this->TryGetMap($destinationProperty, $map)) {
+				if($this->TryGetMap($destinationProperty, $map)) {
 
-                    if (! ($map->FromMember) || $map->FromMember->Class == $sourceType){
-                        $destination->{$destinationProperty->name} = $this->MapMapping($map, $destinationProperty, $source);
-                        continue;
-                    }
-                }else{
+					if (! ($map->FromMember) || $map->FromMember->Class == $sourceType){
+						$destination->{$destinationProperty->name} = $this->MapMapping($map, $destinationProperty, $source);
+						continue;
+					}
+				}else{
 
-                    $srcProperty = null;
-                    if(self::TryGetReflectionProperty($destinationProperty->name, $source, $srcProperty)) {
-                        $destination->{$destinationProperty->name} = $this->MapProperty($destinationProperty, $srcProperty->getValue($source));
-                        continue;
-                    }
-                }
+					$srcProperty = null;
+					if(self::TryGetReflectionProperty($destinationProperty->name, $source, $srcProperty)) {
+						$destination->{$destinationProperty->name} = $this->MapProperty($destinationProperty, $srcProperty->getValue($source));
+						continue;
+					}
+				}
 			}
 			return $destination;
 		}
